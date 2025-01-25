@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="green_200">#606C38</color>
-    <color name="green_500">#445128</color>
-    <color name="green_700">#283618</color>
-    <color name="orange_200">#DDA15E</color>
-    <color name="orange_700">#BC6C25</color>
+    <color name="green_200">#788F99</color>
+    <color name="green_500">#47697A</color>
+    <color name="green_700">#16425B</color>
+    <color name="orange_200">#9EB8C4</color>
+    <color name="orange_700">#6294B2</color>
     <color name="black">#0E0E0E</color>
     <color name="white">#F4F4F4</color>
-    <color name="background">#93987C</color>
+    <color name="background">#D9DCD6</color>
 
 <!--    <color name="purple_200">#BB86FC</color>-->
 <!--    <color name="purple_500">#6200EE</color>-->
