@@ -18,14 +18,16 @@
         android:textColor="@color/green_700"
         android:textSize="34sp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/return_button" />
 
     <TextView
         android:id="@+id/details_device_total_uses"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Total Uses"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
@@ -37,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Free Uses"
+        android:textColor="@color/black"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.05"
@@ -61,27 +64,27 @@
             <TextView
                 android:id="@+id/details_device_nothing"
                 android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:paddingTop="2dp"
-                android:paddingBottom="2dp"
-                android:layout_height="wrap_content" />
+                android:paddingBottom="2dp" />
 
             <TextView
                 android:id="@+id/details_device_unused"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/black"
                 android:background="@drawable/border"
-                android:text="Unused" />
+                android:gravity="center"
+                android:text="Unused"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/details_device_total_uses_table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:textColor="@color/black"
                 android:background="@drawable/border"
-                android:text="Total" />
+                android:gravity="center"
+                android:text="Total"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -92,8 +95,8 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/background"
             android:layout_weight="1"
+            android:background="@color/background"
             android:orientation="vertical">
 
             <TextView
@@ -102,28 +105,28 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/border_lighter"
                 android:gravity="center_horizontal"
-                android:text="Daily"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
+                android:text="Daily"
                 android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/details_device_daily_uses_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
-                android:paddingLeft="5dp"
                 android:background="@drawable/border_lighter"
-                android:text="daily_uses_left" />
+                android:paddingLeft="5dp"
+                android:text="daily_uses_left"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/details_device_daily_uses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:textColor="@color/black"
                 android:background="@drawable/border_lighter"
-                android:text="daily_uses" />
+                android:paddingLeft="5dp"
+                android:text="daily_uses"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
@@ -137,58 +140,58 @@
                 android:id="@+id/details_device_weekly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
-                android:textColor="@color/black"
                 android:background="@drawable/border"
+                android:gravity="center_horizontal"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:text="Weekly" />
+                android:text="Weekly"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/details_device_weekly_uses_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:textColor="@color/black"
                 android:background="@drawable/border"
-                android:text="weekly_uses_left" />
+                android:paddingLeft="5dp"
+                android:text="weekly_uses_left"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/details_device_weekly_uses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:textColor="@color/black"
                 android:background="@drawable/border"
-                android:text="weekly_uses" />
+                android:paddingLeft="5dp"
+                android:text="weekly_uses"
+                android:textColor="@color/black" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:background="@color/background"
             android:layout_weight="1"
+            android:background="@color/background"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/details_device_monthly"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center_horizontal"
                 android:background="@drawable/border_lighter"
-                android:textColor="@color/black"
+                android:gravity="center_horizontal"
                 android:paddingTop="2dp"
                 android:paddingBottom="2dp"
-                android:text="Monthly" />
+                android:text="Monthly"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/details_device_monthly_uses_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingLeft="5dp"
-                android:textColor="@color/black"
                 android:background="@drawable/border_lighter"
-                android:text="monthly_uses_left" />
+                android:paddingLeft="5dp"
+                android:text="monthly_uses_left"
+                android:textColor="@color/black" />
 
             <TextView
                 android:id="@+id/details_device_monthly_uses"
@@ -205,14 +208,44 @@
         android:id="@+id/details_device_uses_in_time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
         android:background="@drawable/border_lighter"
+        android:gravity="center_horizontal"
         android:padding="3dp"
-        android:textColor="@color/green_500"
         android:text="Usage"
+        android:textColor="@color/green_500"
         android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/details_device_free_uses" />
+
+    <Button
+        android:id="@+id/return_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.01"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <Button
+        android:id="@+id/see_temp_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:text="See temperature"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+    <Button
+        android:id="@+id/see_humidity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="See humidity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/see_temp_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

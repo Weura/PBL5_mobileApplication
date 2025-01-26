@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 public class DeviceDetailsActivity extends AppCompatActivity {
@@ -19,6 +21,10 @@ public class DeviceDetailsActivity extends AppCompatActivity {
     private TextView weeklyUsesLeftTextView;
     private TextView monthlyUsesTextView;
     private TextView monthlyUsesLeftTextView;
+
+    private Button returnButton;
+    private Button tempChartButton;
+    private Button humidityChartButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,5 +71,33 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         weeklyUsesLeftTextView.setText(String.valueOf(weeklyUsesLeft));
         monthlyUsesTextView.setText(String.valueOf(monthlyUses));
         monthlyUsesLeftTextView.setText(String.valueOf(monthlyUsesLeft));
+
+//        navigate to main scrolling activity
+        returnButton = findViewById(R.id.return_button);
+        returnButton.setOnClickListener(view -> {
+            Intent newIntent = new Intent(DeviceDetailsActivity.this, MainScrollingActivity.class);
+            startActivity(newIntent);
+            finish();
+        });
+
+//        navigate to temperature chart activity
+        tempChartButton = findViewById(R.id.see_temp_button);
+        tempChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeviceDetailsActivity.this, TemperatureChartActivity.class);
+                startActivity(intent);
+            }
+        });
+
+//        navigate to humidity chart activity
+        humidityChartButton = findViewById(R.id.see_humidity_button);
+        humidityChartButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(DeviceDetailsActivity.this, TemperatureChartActivity.class);
+                startActivity(intent);
+            }
+        });
     }
 }

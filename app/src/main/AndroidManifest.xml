@@ -16,6 +16,12 @@
         android:theme="@style/Theme.CheckMate"
         tools:targetApi="34">
         <activity
+            android:name=".HumidityChartActivity"
+            android:exported="false" />
+        <activity
+            android:name=".TemperatureChartActivity"
+            android:exported="false" />
+        <activity
             android:name=".DeviceDetailsActivity"
             android:exported="false" />
         <activity
