@@ -151,7 +151,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private void onLoginSuccess(LoggedInUserView model) {
-        String welcomeMessage = getString(R.string.welcome) + model.getDisplayName();
+        String welcomeMessage = getString(R.string.welcome) + model.getDisplayName() + "!";
         Toast.makeText(getApplicationContext(), welcomeMessage, Toast.LENGTH_LONG).show();
 
         // Save the user session using UserSessionManager

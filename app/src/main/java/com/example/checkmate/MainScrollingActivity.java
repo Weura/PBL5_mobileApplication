@@ -5,6 +5,9 @@ import android.os.Bundle;
 import com.example.checkmate.data.api.ApiClient;
 import com.example.checkmate.data.api.ApiService;
 import com.example.checkmate.data.api.modelApi.Device;
+import com.example.checkmate.data.api.modelApi.UserDevice;
+import com.example.checkmate.data.model.LoggedInUser;
+import com.example.checkmate.data.model.UserSessionManager;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -14,6 +17,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -70,25 +74,37 @@ public class MainScrollingActivity extends AppCompatActivity {
 //            }
 //        });
 
+        UserSessionManager userSessionManager = UserSessionManager.getInstance(MainScrollingActivity.this);
+        LoggedInUser currentUser = userSessionManager.getLoggedInUser();
+
+        if (currentUser != null) {
+            fetchDataFromApi(currentUser.getUserId()); // Wywołaj API tylko, jeśli userId jest poprawny
+        } else {
+            Toast.makeText(MainScrollingActivity.this, "User is not logged in", Toast.LENGTH_SHORT).show();
+        }
+
         // Fetch data from API
-        fetchDataFromApi();
+        fetchDataFromApi(currentUser.getUserId());
     }
 
-    private void fetchDataFromApi() {
+    private void fetchDataFromApi(int userId) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        apiService.getDeviceInfo().enqueue(new Callback<List<Device>>() {
+        Call<UserDevice> call = apiService.getDeviceInfo(userId);
+        call.enqueue(new Callback<UserDevice>() {
             @Override
-            public void onResponse(Call<List<Device>> call, Response<List<Device>> response) {
+            public void onResponse(Call<UserDevice> call, Response<UserDevice> response) {
                 if (response.isSuccessful() && response.body() != null) {
                     // Zaktualizuj dane w adapterze
-                    deviceAdapter.updateDevices(response.body());
+                    List<Device> devices = response.body().getDevices();
+                    deviceAdapter.updateDevices(devices);
                 } else {
                     Toast.makeText(MainScrollingActivity.this, "Failed to fetch data", Toast.LENGTH_SHORT).show();
                 }
             }
             @Override
-            public void onFailure(Call<List<Device>> call, Throwable t) {
-                Toast.makeText(MainScrollingActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+            public void onFailure(Call<UserDevice> call, Throwable t) {
+//                Log.d("FETCHDATALogamiks", "fetchDataFromApi" + call + t);
+//                Toast.makeText(MainScrollingActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }

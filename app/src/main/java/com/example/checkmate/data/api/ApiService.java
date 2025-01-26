@@ -1,5 +1,6 @@
 package com.example.checkmate.data.api;
 import com.example.checkmate.data.api.modelApi.Device;
+import com.example.checkmate.data.api.modelApi.UserDevice;
 import com.google.gson.JsonObject;
 import com.example.checkmate.data.model.LoginRequest;
 import com.example.checkmate.data.model.LoginResponse;
@@ -15,13 +16,12 @@ import retrofit2.http.Path;
 public interface ApiService {
 
 // -------------LOGIN------------------
-    // Logowanie
     @POST("/login")
     Call<LoginResponse> loginUser(@Body LoginRequest loginRequest);
 
 // -------------DEVICE------------------
-    // Pobieranie danych o urządzeniu
-    @GET("/devices")
-    Call<List<Device>> getDeviceInfo();
+    // get specific user devices
+    @GET("/users/{user_id}/devices")
+    Call<UserDevice> getDeviceInfo(@Path("user_id") int userId);
 
 }
