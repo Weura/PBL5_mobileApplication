@@ -69,6 +69,7 @@
                 android:id="@+id/details_device_unused"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:background="@drawable/border"
                 android:text="Unused" />
@@ -77,6 +78,7 @@
                 android:id="@+id/details_device_total_uses_table"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:gravity="center"
                 android:textColor="@color/black"
                 android:background="@drawable/border"
                 android:text="Total" />
@@ -110,6 +112,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textColor="@color/black"
+                android:paddingLeft="5dp"
                 android:background="@drawable/border_lighter"
                 android:text="daily_uses_left" />
 
@@ -117,6 +120,7 @@
                 android:id="@+id/details_device_daily_uses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
                 android:textColor="@color/black"
                 android:background="@drawable/border_lighter"
                 android:text="daily_uses" />
@@ -144,6 +148,7 @@
                 android:id="@+id/details_device_weekly_uses_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
                 android:textColor="@color/black"
                 android:background="@drawable/border"
                 android:text="weekly_uses_left" />
@@ -152,6 +157,7 @@
                 android:id="@+id/details_device_weekly_uses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
                 android:textColor="@color/black"
                 android:background="@drawable/border"
                 android:text="weekly_uses" />
@@ -179,6 +185,7 @@
                 android:id="@+id/details_device_monthly_uses_left"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:paddingLeft="5dp"
                 android:textColor="@color/black"
                 android:background="@drawable/border_lighter"
                 android:text="monthly_uses_left" />
@@ -187,9 +194,10 @@
                 android:id="@+id/details_device_monthly_uses"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:textColor="@color/black"
                 android:background="@drawable/border_lighter"
-                android:text="monthly_uses" />
+                android:paddingLeft="5dp"
+                android:text="monthly_uses"
+                android:textColor="@color/black" />
         </LinearLayout>
     </LinearLayout>
 

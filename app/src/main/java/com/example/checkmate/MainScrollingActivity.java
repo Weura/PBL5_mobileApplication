@@ -105,6 +105,16 @@ public class MainScrollingActivity extends AppCompatActivity implements OnDevice
         // Start DeviceDetailsActivity and pass the device ID or other details
         Intent intent = new Intent(this, DeviceDetailsActivity.class);
         intent.putExtra("device_id", device.getId());
+        intent.putExtra("device_name", device.getName());
+//      uses
+        intent.putExtra("total_uses", device.getTotalUses());
+        intent.putExtra("free_uses", device.getFreeUses());
+        intent.putExtra("daily_uses", device.getDailyUses());
+        intent.putExtra("daily_uses_left", device.getDailyUsesLeft());
+        intent.putExtra("weekly_uses", device.getWeeklyUses());
+        intent.putExtra("weekly_uses_left", device.getWeeklyUsesLeft());
+        intent.putExtra("monthly_uses", device.getMonthlyUses());
+        intent.putExtra("monthly_uses_left", device.getMonthlyUsesLeft());
         startActivity(intent);
     }
 }
