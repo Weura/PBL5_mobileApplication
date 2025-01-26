@@ -1,7 +1,9 @@
 package com.example.checkmate;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.checkmate.data.OnDeviceClickListener;
 import com.example.checkmate.data.api.ApiClient;
 import com.example.checkmate.data.api.ApiService;
 import com.example.checkmate.data.api.modelApi.Device;
@@ -9,8 +11,6 @@ import com.example.checkmate.data.api.modelApi.UserDevice;
 import com.example.checkmate.data.model.LoggedInUser;
 import com.example.checkmate.data.model.UserSessionManager;
 import com.google.android.material.appbar.CollapsingToolbarLayout;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -18,8 +18,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
-import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.checkmate.databinding.ActivityMainScrollingBinding;
@@ -31,7 +29,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MainScrollingActivity extends AppCompatActivity {
+public class MainScrollingActivity extends AppCompatActivity implements OnDeviceClickListener {
 
     private ActivityMainScrollingBinding binding;
     private RecyclerView recyclerViewDevice;
@@ -53,17 +51,11 @@ public class MainScrollingActivity extends AppCompatActivity {
         toolBarLayout.setTitle(getTitle());
 
         // Inicjalizacja adaptera bez danych
-        deviceAdapter = new DeviceAdapter(this, new ArrayList<>());
+        deviceAdapter = new DeviceAdapter(this, new ArrayList<>(), this);
 
         // Ustawienie LayoutManager do RecyclerView
         recyclerViewDevice.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewDevice.setAdapter(deviceAdapter);
-
-//        // Kliknięcie na element listy
-//        deviceListView.setOnItemClickListener((parent, view, position, id) -> {
-//            OnePieceResponse selectedFruit = fruitList.get(position);
-//            openDetailsActivity(selectedFruit);
-//        });
 
 //        FloatingActionButton fab = binding.fab;
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -78,18 +70,18 @@ public class MainScrollingActivity extends AppCompatActivity {
         LoggedInUser currentUser = userSessionManager.getLoggedInUser();
 
         if (currentUser != null) {
-            fetchDataFromApi(currentUser.getUserId()); // Wywołaj API tylko, jeśli userId jest poprawny
+            fetchUserDevice(currentUser.getUserId()); // Wywołaj API tylko, jeśli userId jest poprawny
         } else {
             Toast.makeText(MainScrollingActivity.this, "User is not logged in", Toast.LENGTH_SHORT).show();
         }
 
         // Fetch data from API
-        fetchDataFromApi(currentUser.getUserId());
+        fetchUserDevice(currentUser.getUserId());
     }
 
-    private void fetchDataFromApi(int userId) {
+    private void fetchUserDevice(int userId) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
-        Call<UserDevice> call = apiService.getDeviceInfo(userId);
+        Call<UserDevice> call = apiService.getUserDevice(userId);
         call.enqueue(new Callback<UserDevice>() {
             @Override
             public void onResponse(Call<UserDevice> call, Response<UserDevice> response) {
@@ -103,10 +95,16 @@ public class MainScrollingActivity extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<UserDevice> call, Throwable t) {
-//                Log.d("FETCHDATALogamiks", "fetchDataFromApi" + call + t);
-//                Toast.makeText(MainScrollingActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainScrollingActivity.this, "Error: " + t.getMessage(), Toast.LENGTH_SHORT).show();
             }
         });
     }
 
+    @Override
+    public void onDeviceClick(Device device) {
+        // Start DeviceDetailsActivity and pass the device ID or other details
+        Intent intent = new Intent(this, DeviceDetailsActivity.class);
+        intent.putExtra("device_id", device.getId());
+        startActivity(intent);
+    }
 }

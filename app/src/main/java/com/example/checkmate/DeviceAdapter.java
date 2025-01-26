@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.checkmate.data.OnDeviceClickListener;
 import com.example.checkmate.data.api.modelApi.Device;
 
 import java.util.List;
@@ -19,10 +20,12 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
 
     private Context context;
     private List<Device> devices;
+    private OnDeviceClickListener deviceClickListener;
 
-    public DeviceAdapter(Context context, List<Device> devices) {
+    public DeviceAdapter(Context context, List<Device> devices, OnDeviceClickListener listener) {
         this.context = context;
         this.devices = devices;
+        this.deviceClickListener = listener;
     }
 
     @NonNull
@@ -35,10 +38,16 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Device device = devices.get(position);
-        Log.d("DEVICELogamiks", position + device.getName() + "Uses: " + device.getTotalUses() + "Status: " + device.isOperating());
         holder.deviceName.setText(device.getName());
         holder.deviceTotalUses.setText("Uses: " + device.getTotalUses());
         holder.deviceStatus.setText("Status: " + (device.isOperating() ? "Operating" : "Not Operating"));
+
+        // Handle click event
+        holder.itemView.setOnClickListener(v -> {
+            if (deviceClickListener != null) {
+                deviceClickListener.onDeviceClick(device);
+            }
+        });
     }
 
     @Override

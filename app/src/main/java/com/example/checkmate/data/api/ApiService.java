@@ -1,7 +1,8 @@
 package com.example.checkmate.data.api;
-import com.example.checkmate.data.api.modelApi.Device;
+import com.example.checkmate.data.api.modelApi.Currents;
+import com.example.checkmate.data.api.modelApi.Temperature;
 import com.example.checkmate.data.api.modelApi.UserDevice;
-import com.google.gson.JsonObject;
+import com.example.checkmate.data.api.modelApi.Voltage;
 import com.example.checkmate.data.model.LoginRequest;
 import com.example.checkmate.data.model.LoginResponse;
 
@@ -22,6 +23,21 @@ public interface ApiService {
 // -------------DEVICE------------------
     // get specific user devices
     @GET("/users/{user_id}/devices")
-    Call<UserDevice> getDeviceInfo(@Path("user_id") int userId);
+    Call<UserDevice> getUserDevice(@Path("user_id") int userId);
 
+// -----------DEVICE-INFO----------------
+    // get temperature of specific device
+    @GET("/devices/<int:device_id>/temperature")
+    Call<List<Temperature>> getDeviceTemperature(@Path("device_id") int device_id);
+
+    // get voltage of specific device
+    @GET("/devices/<int:device_id>/voltage")
+    Call<List<Voltage>> getDeviceVoltage(@Path("device_id") int device_id);
+
+    // get currents of specific device
+    @GET("/devices/<int:device_id>/currents")
+    Call<List<Currents>> getDeviceCurrents(@Path("device_id") int device_id);
+
+//    currently not in database
+//    /devices/<int:device_id>/humidity
 }
