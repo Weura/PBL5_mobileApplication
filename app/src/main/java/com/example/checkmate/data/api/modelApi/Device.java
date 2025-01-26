@@ -2,33 +2,33 @@ package com.example.checkmate.data.api.modelApi;
 
 public class Device {
 
-    private int dailyUses;
-    private int freeUses;
+    private int daily_uses;
+    private int free_uses;
     private int id;
-    private boolean isOperating;
-    private int monthlyUses;
+    private boolean is_operating;
+    private int monthly_uses;
     private String name;
-    private int ownerId;
-    private String ownerName;
-    private int totalUses;
-    private int weeklyUses;
+    private int owner_id;
+    private String owner_name;
+    private int total_uses;
+    private int weekly_uses;
 
     // Getters and Setters
 
     public int getDailyUses() {
-        return dailyUses;
+        return daily_uses;
     }
 
-    public void setDailyUses(int dailyUses) {
-        this.dailyUses = dailyUses;
+    public void setDailyUses(int daily_uses) {
+        this.daily_uses = daily_uses;
     }
 
     public int getFreeUses() {
-        return freeUses;
+        return free_uses;
     }
 
-    public void setFreeUses(int freeUses) {
-        this.freeUses = freeUses;
+    public void setFreeUses(int free_uses) {
+        this.free_uses = free_uses;
     }
 
     public int getId() {
@@ -40,19 +40,19 @@ public class Device {
     }
 
     public boolean isOperating() {
-        return isOperating;
+        return is_operating;
     }
 
-    public void setOperating(boolean isOperating) {
-        this.isOperating = isOperating;
+    public void setOperating(boolean is_operating) {
+        this.is_operating = is_operating;
     }
 
     public int getMonthlyUses() {
-        return monthlyUses;
+        return monthly_uses;
     }
 
-    public void setMonthlyUses(int monthlyUses) {
-        this.monthlyUses = monthlyUses;
+    public void setMonthlyUses(int monthly_uses) {
+        this.monthly_uses = monthly_uses;
     }
 
     public String getName() {
@@ -64,34 +64,34 @@ public class Device {
     }
 
     public int getOwnerId() {
-        return ownerId;
+        return owner_id;
     }
 
-    public void setOwnerId(int ownerId) {
-        this.ownerId = ownerId;
+    public void setOwnerId(int owner_id) {
+        this.owner_id = owner_id;
     }
 
     public String getOwnerName() {
-        return ownerName;
+        return owner_name;
     }
 
-    public void setOwnerName(String ownerName) {
-        this.ownerName = ownerName;
+    public void setOwnerName(String owner_name) {
+        this.owner_name = owner_name;
     }
 
     public int getTotalUses() {
-        return totalUses;
+        return total_uses;
     }
 
-    public void setTotalUses(int totalUses) {
-        this.totalUses = totalUses;
+    public void setTotalUses(int total_uses) {
+        this.total_uses = total_uses;
     }
 
     public int getWeeklyUses() {
-        return weeklyUses;
+        return weekly_uses;
     }
 
-    public void setWeeklyUses(int weeklyUses) {
-        this.weeklyUses = weeklyUses;
+    public void setWeeklyUses(int weekly_uses) {
+        this.weekly_uses = weekly_uses;
     }
 }

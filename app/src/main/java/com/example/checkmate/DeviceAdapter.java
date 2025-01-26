@@ -1,6 +1,7 @@
 package com.example.checkmate;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,9 +35,10 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Device device = devices.get(position);
+        Log.d("DEVICELogamiks", position + device.getName() + "Uses: " + device.getTotalUses() + "Status: " + device.isOperating());
         holder.deviceName.setText(device.getName());
-        holder.deviceUses.setText("Uses: " + device.getTotalUses());
-        holder.deviceStatus.setText(device.isOperating() ? "Operating" : "Not Operating");
+        holder.deviceTotalUses.setText("Uses: " + device.getTotalUses());
+        holder.deviceStatus.setText("Status: " + (device.isOperating() ? "Operating" : "Not Operating"));
     }
 
     @Override
@@ -52,13 +54,13 @@ public class DeviceAdapter extends RecyclerView.Adapter<DeviceAdapter.ViewHolder
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         public TextView deviceName;
-        public TextView deviceUses;
+        public TextView deviceTotalUses;
         public TextView deviceStatus;
 
         public ViewHolder(View itemView) {
             super(itemView);
             deviceName = itemView.findViewById(R.id.device_name);
-            deviceUses = itemView.findViewById(R.id.device_uses);
+            deviceTotalUses = itemView.findViewById(R.id.device_total_uses);
             deviceStatus = itemView.findViewById(R.id.device_status);
         }
     }
