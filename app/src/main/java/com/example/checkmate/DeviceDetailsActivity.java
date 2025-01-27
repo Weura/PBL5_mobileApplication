@@ -105,7 +105,7 @@ public class DeviceDetailsActivity extends AppCompatActivity {
         humidityChartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(DeviceDetailsActivity.this, TemperatureChartActivity.class);
+                Intent intent = new Intent(DeviceDetailsActivity.this, HumidityChartActivity.class);
                 intent.putExtra("device_id", deviceId);
                 intent.putExtra("device_name", deviceName);
                 intent.putExtra("total_uses", totalUses);

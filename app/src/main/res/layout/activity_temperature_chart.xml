@@ -35,7 +35,7 @@
         style="bold"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Temperature"
+        android:text="Temperature [°C]"
         android:textColor="@color/green_500"
         android:textSize="20sp"
         android:textStyle="bold"

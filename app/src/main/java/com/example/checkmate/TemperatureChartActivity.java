@@ -19,6 +19,12 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
+import com.github.mikephil.charting.formatter.ValueFormatter;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -33,7 +39,6 @@ public class TemperatureChartActivity extends AppCompatActivity {
 
     private LineChart lineChart;
     private Button returnButton;
-    private Map<String, Double> temperatureData; // Mapa do przechowywania timestamp i temperatury
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +50,16 @@ public class TemperatureChartActivity extends AppCompatActivity {
         int deviceId = newIntent.getIntExtra("device_id", 0);
         String deviceName = newIntent.getStringExtra("device_name");
 
+        int totalUses = newIntent.getIntExtra("total_uses", 0);
+        int freeUses = newIntent.getIntExtra("free_uses", 0);
+
+        int dailyUses = newIntent.getIntExtra("daily_uses", 0);
+        int dailyUsesLeft = newIntent.getIntExtra("daily_uses_left", 0);
+        int weeklyUses = newIntent.getIntExtra("weekly_uses", 0);
+        int weeklyUsesLeft = newIntent.getIntExtra("weekly_uses_left", 0);
+        int monthlyUses = newIntent.getIntExtra("monthly_uses", 0);
+        int monthlyUsesLeft = newIntent.getIntExtra("monthly_uses_left", 0);
+
         // Inicjalizacja wykresu
         lineChart = findViewById(R.id.line_chart_temperature);
         setupChart();
@@ -55,39 +70,45 @@ public class TemperatureChartActivity extends AppCompatActivity {
             Intent intent = new Intent(TemperatureChartActivity.this, DeviceDetailsActivity.class);
             intent.putExtra("device_id", deviceId);
             intent.putExtra("device_name", deviceName);
+            intent.putExtra("total_uses", totalUses);
+            intent.putExtra("free_uses", freeUses);
+            intent.putExtra("daily_uses", dailyUses);
+            intent.putExtra("daily_uses_left", dailyUsesLeft);
+            intent.putExtra("weekly_uses", weeklyUses);
+            intent.putExtra("weekly_uses_left", weeklyUsesLeft);
+            intent.putExtra("monthly_uses", monthlyUses);
+            intent.putExtra("monthly_uses_left", monthlyUsesLeft);
             startActivity(intent);
             finish();
         });
 
-        // Pobieranie temperatury z API
+
         fetchTemperature(deviceId);
     }
 
-    // Ustawienia wykresu
     private void setupChart() {
         Description description = new Description();
-        description.setText("Temperature over time");
         description.setPosition(150f, 15f);
         lineChart.setDescription(description);
         lineChart.getAxisRight().setDrawLabels(false);
 
-        // Ustawienia osi X (czas)
+        // x - time
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(45f); // Rotacja, jeśli nazwy są długie
+        xAxis.setLabelRotationAngle(45f);
         xAxis.setGranularity(1f);
-        xAxis.setDrawGridLines(false); // Ukrywa linie siatki
+        xAxis.setDrawGridLines(false);
 
-        // Ustawienia osi Y (temperatura)
+        // Y - temperature
         YAxis yAxis = lineChart.getAxisLeft();
-        yAxis.setAxisMinimum(0f);
-        yAxis.setAxisMaximum(100f);
+        yAxis.setAxisMinimum(-20f);
+        yAxis.setAxisMaximum(45f);
         yAxis.setAxisLineWidth(2f);
         yAxis.setAxisLineColor(Color.BLACK);
         yAxis.setLabelCount(10);
+        yAxis.setDrawGridLines(false);
     }
 
-    // Pobieranie danych z API
     private void fetchTemperature(int deviceId) {
         ApiService apiService = ApiClient.getClient().create(ApiService.class);
         Call<List<Temperature>> call = apiService.getDeviceTemperature(deviceId);
@@ -113,30 +134,78 @@ public class TemperatureChartActivity extends AppCompatActivity {
         });
     }
 
-    // Aktualizacja wykresu na podstawie pobranych danych
     private void updateChartWithTemperatureData(List<Temperature> temperatures) {
         List<Entry> temperatureEntries = new ArrayList<>();
-        List<String> xValues = new ArrayList<>(); // Lista dla osi X (timestamp)
+        List<String> timeLabels = new ArrayList<>();
 
-        // Dodanie danych do list
-        for (int i = 0; i < temperatures.size(); i++) {
-            Temperature temp = temperatures.get(i);
-            temperatureEntries.add(new Entry(i, (float) temp.getTemperature()));
-            xValues.add(temp.getTimestamp()); // Dodanie timestampu do osi X
+//        for displaying highest and lowest value
+        final float[] minTimeInMinutes = {Float.MAX_VALUE};
+        final float[] maxTimeInMinutes = {Float.MIN_VALUE};
+        float minTemperature = Float.MAX_VALUE;
+        float maxTemperature = Float.MIN_VALUE;
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
+
+        try {
+            long referenceTime = dateFormat.parse(temperatures.get(0).getTimestamp()).getTime();
+
+            for (int i = 0; i < temperatures.size(); i++) {
+                Temperature temp = temperatures.get(i);
+
+                long timeInMillis = dateFormat.parse(temp.getTimestamp()).getTime();
+                float timeInMinutes = (timeInMillis - referenceTime) / 60000f;
+
+                temperatureEntries.add(new Entry(timeInMinutes, (float) temp.getTemperature()));
+                timeLabels.add(temp.getTimestamp());
+
+                if (temp.getTemperature() < minTemperature) {
+                    minTemperature = (float) temp.getTemperature();
+                    minTimeInMinutes[0] = timeInMinutes;
+                }
+                if (temp.getTemperature() > maxTemperature) {
+                    maxTemperature = (float) temp.getTemperature();
+                    maxTimeInMinutes[0] = timeInMinutes;
+                }
+            }
+
+            LineDataSet dataSet = new LineDataSet(temperatureEntries, "Temperature");
+            dataSet.setColor(Color.BLUE);
+            dataSet.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getPointLabel(Entry entry) {
+                    if (entry.getX() == minTimeInMinutes[0] || entry.getX() == maxTimeInMinutes[0]) {
+                        return String.valueOf(entry.getY());
+                    }
+                    return "";
+                }
+            });
+
+            LineData lineData = new LineData(dataSet);
+            lineChart.setData(lineData);
+
+            XAxis xAxis = lineChart.getXAxis();
+            // number of labels on x axis
+            xAxis.setLabelCount(5, true);
+            // TODO: if need to be changed rn: 10 min
+            xAxis.setGranularity(10f);
+            xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
+
+            // change to format HH:mm
+            xAxis.setValueFormatter(new ValueFormatter() {
+                private final SimpleDateFormat mFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
+
+                @Override
+                public String getFormattedValue(float value) {
+                    long timeInMillis = referenceTime + ((long) value * 60000);
+                    return mFormat.format(new Date(timeInMillis));
+                }
+            });
+
+            lineChart.invalidate();
+
+        } catch (ParseException e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error in parsing data", Toast.LENGTH_SHORT).show();
         }
-
-        // Ustawienie danych wykresu
-        LineDataSet dataSet = new LineDataSet(temperatureEntries, "Temperature");
-        dataSet.setColor(Color.BLUE);
-
-        LineData lineData = new LineData(dataSet);
-        lineChart.setData(lineData);
-
-        // Ustawienie formatera osi X
-        XAxis xAxis = lineChart.getXAxis();
-        xAxis.setValueFormatter(new IndexAxisValueFormatter(xValues));
-        xAxis.setLabelCount(xValues.size());
-
-        lineChart.invalidate(); // Odświeżenie wykresu
     }
 }
