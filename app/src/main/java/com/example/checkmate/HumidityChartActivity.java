@@ -83,6 +83,7 @@ public class HumidityChartActivity extends AppCompatActivity {
 
     private void setupChart() {
         Description description = new Description();
+        description.setText("");
         description.setPosition(150f, 15f);
         lineChart.setDescription(description);
         lineChart.getAxisRight().setDrawLabels(false);
@@ -90,7 +91,6 @@ public class HumidityChartActivity extends AppCompatActivity {
         // x - time
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(45f);
         xAxis.setGranularity(1f);
         xAxis.setDrawGridLines(false);
 
@@ -101,6 +101,7 @@ public class HumidityChartActivity extends AppCompatActivity {
         yAxis.setAxisLineWidth(2f);
         yAxis.setAxisLineColor(Color.BLACK);
         yAxis.setLabelCount(10);
+        yAxis.setDrawGridLines(false);
     }
 
     private void fetchHumidity(int deviceId) {
@@ -132,6 +133,12 @@ public class HumidityChartActivity extends AppCompatActivity {
         List<Entry> humidityEntries = new ArrayList<>();
         List<String> timeLabels = new ArrayList<>();
 
+//        for displaying highest and lowest value
+        final float[] minTimeInMinutes = {Float.MAX_VALUE};
+        final float[] maxTimeInMinutes = {Float.MIN_VALUE};
+        float minHumidity = Float.MAX_VALUE;
+        float maxHumidity = Float.MIN_VALUE;
+
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.ENGLISH);
 
         try {
@@ -146,37 +153,58 @@ public class HumidityChartActivity extends AppCompatActivity {
                 // Dodaj dane do wykresu
                 humidityEntries.add(new Entry(timeInMinutes, (float) temp.getHumidity()));
                 timeLabels.add(temp.getTimestamp()); // Możesz dodać formatowanie czasu jako etykiety
+
+                if (temp.getHumidity() < minHumidity) {
+                    minHumidity = (float) temp.getHumidity();
+                    minTimeInMinutes[0] = timeInMinutes;
+                }
+                if (temp.getHumidity() > maxHumidity) {
+                    maxHumidity = (float) temp.getHumidity();
+                    maxTimeInMinutes[0] = timeInMinutes;
+                }
             }
 
-            LineDataSet dataSet = new LineDataSet(humidityEntries, "Temperature");
+            LineDataSet dataSet = new LineDataSet(humidityEntries, "");
             dataSet.setColor(Color.BLUE);
-            dataSet.setDrawValues(false);
+            dataSet.setDrawCircles(false);
+
+            dataSet.setValueFormatter(new ValueFormatter() {
+                @Override
+                public String getPointLabel(Entry entry) {
+                    if (entry.getX() == minTimeInMinutes[0] || entry.getX() == maxTimeInMinutes[0]) {
+                        return String.valueOf(entry.getY());
+                    }
+                    return "";
+                }
+            });
 
             LineData lineData = new LineData(dataSet);
             lineChart.setData(lineData);
+            lineChart.getLegend().setEnabled(false);
 
             XAxis xAxis = lineChart.getXAxis();
-            xAxis.setLabelCount(5, true); // Ustawia przedziałki (np. 5 etykiet na osi X)
-            xAxis.setGranularity(10f); // Przedział co 10 minut
+            // number of labels on x axis
+            xAxis.setLabelCount(5, true);
+            // TODO: if need to be changed rn: 10 min
+            xAxis.setGranularity(10f);
             xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
 
-            // Formatowanie wartości osi X, aby pokazywały czas w formacie HH:mm
+            // change to format HH:mm
             xAxis.setValueFormatter(new ValueFormatter() {
                 private final SimpleDateFormat mFormat = new SimpleDateFormat("HH:mm", Locale.getDefault());
 
                 @Override
                 public String getFormattedValue(float value) {
-                    long timeInMillis = referenceTime + ((long) value * 60000); // przeliczenie minut na czas
-                    return mFormat.format(new Date(timeInMillis)); // zwróć czas w formacie godzina:minuta
+                    long timeInMillis = referenceTime + ((long) value * 60000);
+                    return mFormat.format(new Date(timeInMillis));
                 }
             });
 
-            lineChart.invalidate(); // Odśwież wykres
+            lineChart.invalidate();
 
         } catch (ParseException e) {
             e.printStackTrace();
-            // Obsłuż wyjątek, np. pokaż błąd użytkownikowi
-            Toast.makeText(this, "Błąd parsowania daty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Error in parsing data", Toast.LENGTH_SHORT).show();
         }
     }
 }

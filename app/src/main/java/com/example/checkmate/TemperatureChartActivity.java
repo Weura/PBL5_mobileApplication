@@ -88,6 +88,7 @@ public class TemperatureChartActivity extends AppCompatActivity {
 
     private void setupChart() {
         Description description = new Description();
+        description.setText("");
         description.setPosition(150f, 15f);
         lineChart.setDescription(description);
         lineChart.getAxisRight().setDrawLabels(false);
@@ -95,7 +96,6 @@ public class TemperatureChartActivity extends AppCompatActivity {
         // x - time
         XAxis xAxis = lineChart.getXAxis();
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
-        xAxis.setLabelRotationAngle(45f);
         xAxis.setGranularity(1f);
         xAxis.setDrawGridLines(false);
 
@@ -168,8 +168,10 @@ public class TemperatureChartActivity extends AppCompatActivity {
                 }
             }
 
-            LineDataSet dataSet = new LineDataSet(temperatureEntries, "Temperature");
+            LineDataSet dataSet = new LineDataSet(temperatureEntries, "");
             dataSet.setColor(Color.BLUE);
+            dataSet.setDrawCircles(false);
+
             dataSet.setValueFormatter(new ValueFormatter() {
                 @Override
                 public String getPointLabel(Entry entry) {
@@ -182,6 +184,7 @@ public class TemperatureChartActivity extends AppCompatActivity {
 
             LineData lineData = new LineData(dataSet);
             lineChart.setData(lineData);
+            lineChart.getLegend().setEnabled(false);
 
             XAxis xAxis = lineChart.getXAxis();
             // number of labels on x axis
