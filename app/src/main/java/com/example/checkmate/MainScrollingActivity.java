@@ -106,7 +106,6 @@ public class MainScrollingActivity extends AppCompatActivity implements OnDevice
         Intent intent = new Intent(this, DeviceDetailsActivity.class);
         intent.putExtra("device_id", device.getId());
         intent.putExtra("device_name", device.getName());
-//      uses
         intent.putExtra("total_uses", device.getTotalUses());
         intent.putExtra("free_uses", device.getFreeUses());
         intent.putExtra("daily_uses", device.getDailyUses());

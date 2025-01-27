@@ -86,6 +86,16 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DeviceDetailsActivity.this, TemperatureChartActivity.class);
+                intent.putExtra("device_id", deviceId);
+                intent.putExtra("device_name", deviceName);
+                intent.putExtra("total_uses", totalUses);
+                intent.putExtra("free_uses", freeUses);
+                intent.putExtra("daily_uses", dailyUses);
+                intent.putExtra("daily_uses_left", dailyUsesLeft);
+                intent.putExtra("weekly_uses", weeklyUses);
+                intent.putExtra("weekly_uses_left", weeklyUsesLeft);
+                intent.putExtra("monthly_uses", monthlyUses);
+                intent.putExtra("monthly_uses_left", monthlyUsesLeft);
                 startActivity(intent);
             }
         });
@@ -96,6 +106,16 @@ public class DeviceDetailsActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(DeviceDetailsActivity.this, TemperatureChartActivity.class);
+                intent.putExtra("device_id", deviceId);
+                intent.putExtra("device_name", deviceName);
+                intent.putExtra("total_uses", totalUses);
+                intent.putExtra("free_uses", freeUses);
+                intent.putExtra("daily_uses", dailyUses);
+                intent.putExtra("daily_uses_left", dailyUsesLeft);
+                intent.putExtra("weekly_uses", weeklyUses);
+                intent.putExtra("weekly_uses_left", weeklyUsesLeft);
+                intent.putExtra("monthly_uses", monthlyUses);
+                intent.putExtra("monthly_uses_left", monthlyUsesLeft);
                 startActivity(intent);
             }
         });

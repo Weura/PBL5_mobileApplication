@@ -31,6 +31,20 @@ public class HumidityChartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_humidity_chart);
 
+        Intent newIntent = getIntent();
+        int deviceId = newIntent.getIntExtra("device_id", 0);
+        String deviceName = newIntent.getStringExtra("device_name");
+
+        int totalUses = newIntent.getIntExtra("total_uses", 0);
+        int freeUses = newIntent.getIntExtra("free_uses", 0);
+
+        int dailyUses = newIntent.getIntExtra("daily_uses", 0);
+        int dailyUsesLeft = newIntent.getIntExtra("daily_uses_left", 0);
+        int weeklyUses = newIntent.getIntExtra("weekly_uses", 0);
+        int weeklyUsesLeft = newIntent.getIntExtra("weekly_uses_left", 0);
+        int monthlyUses = newIntent.getIntExtra("monthly_uses", 0);
+        int monthlyUsesLeft = newIntent.getIntExtra("monthly_uses_left", 0);
+
         lineChart = findViewById(R.id.line_chart_humidity);
 
         Description description = new Description();
@@ -80,8 +94,18 @@ public class HumidityChartActivity extends AppCompatActivity {
 
         returnButton = findViewById(R.id.return_from_humidity_button);
         returnButton.setOnClickListener(view -> {
-            Intent newIntent = new Intent(HumidityChartActivity.this, MainScrollingActivity.class);
-            startActivity(newIntent);
+            Intent intent = new Intent(HumidityChartActivity.this, DeviceDetailsActivity.class);
+            intent.putExtra("device_id", deviceId);
+            intent.putExtra("device_name", deviceName);
+            intent.putExtra("total_uses", totalUses);
+            intent.putExtra("free_uses", freeUses);
+            intent.putExtra("daily_uses", dailyUses);
+            intent.putExtra("daily_uses_left", dailyUsesLeft);
+            intent.putExtra("weekly_uses", weeklyUses);
+            intent.putExtra("weekly_uses_left", weeklyUsesLeft);
+            intent.putExtra("monthly_uses", monthlyUses);
+            intent.putExtra("monthly_uses_left", monthlyUsesLeft);
+            startActivity(intent);
             finish();
         });
     }
