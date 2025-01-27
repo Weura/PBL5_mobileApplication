@@ -8,17 +8,17 @@ android:layout_height="match_parent"
 android:background="@color/background"
 tools:context=".HumidityChartActivity">
 
-<Button
-    android:id="@+id/return_from_humidity_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:layout_margin="16dp"
-    android:layout_marginTop="16dp"
-    android:text="Return"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintHorizontal_bias="0.0"
-    app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toTopOf="parent" />
+    <Button
+        android:id="@+id/return_from_humidity_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginTop="16dp"
+        android:text="Return"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 <com.github.mikephil.charting.charts.LineChart
     android:id="@+id/line_chart_humidity"
@@ -29,5 +29,19 @@ tools:context=".HumidityChartActivity">
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintEnd_toEndOf="parent"
     android:layout_margin="16dp"/>
+
+    <TextView
+        android:id="@+id/title_of_humidity_chart"
+        style="bold"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Humidity"
+        android:textColor="@color/green_500"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/line_chart_humidity"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/return_from_humidity_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
