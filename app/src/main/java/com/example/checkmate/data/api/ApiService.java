@@ -1,5 +1,6 @@
 package com.example.checkmate.data.api;
 import com.example.checkmate.data.api.modelApi.Currents;
+import com.example.checkmate.data.api.modelApi.Humidity;
 import com.example.checkmate.data.api.modelApi.Temperature;
 import com.example.checkmate.data.api.modelApi.UserDevice;
 import com.example.checkmate.data.api.modelApi.Voltage;
@@ -27,17 +28,18 @@ public interface ApiService {
 
 // -----------DEVICE-INFO----------------
     // get temperature of specific device
-    @GET("/devices/<int:device_id>/temperature")
+    @GET("/devices/{device_id}/temperature")
     Call<List<Temperature>> getDeviceTemperature(@Path("device_id") int device_id);
 
-    // get voltage of specific device
-    @GET("/devices/<int:device_id>/voltage")
-    Call<List<Voltage>> getDeviceVoltage(@Path("device_id") int device_id);
+    // get humidity of specific device
+    @GET("/devices/{device_id}/humidity")
+    Call<List<Humidity>> getDeviceHumidity(@Path("device_id") int device_id);
 
-    // get currents of specific device
-    @GET("/devices/<int:device_id>/currents")
-    Call<List<Currents>> getDeviceCurrents(@Path("device_id") int device_id);
-
-//    currently not in database
-//    /devices/<int:device_id>/humidity
+//    // get voltage of specific device
+//    @GET("/devices/{device_id}/voltage")
+//    Call<List<Voltage>> getDeviceVoltage(@Path("device_id") int device_id);
+//
+//    // get currents of specific device
+//    @GET("/devices/{device_id}/currents")
+//    Call<List<Currents>> getDeviceCurrents(@Path("device_id") int device_id);
 }
