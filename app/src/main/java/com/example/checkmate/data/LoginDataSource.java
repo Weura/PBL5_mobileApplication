@@ -43,13 +43,6 @@ public class LoginDataSource {
                         userName // Przekazujemy userName tylko jeśli jest dostępne
                 );
 
-//                String userName = username != null && !username.isEmpty() ? username : null;
-//
-//                LoggedInUser user = new LoggedInUser(
-//                        loginResponse.getUserId(),
-//                        userName // Przekazujemy userName tylko jeśli jest dostępne
-//                );
-
                 return new Result.Success<>(user);
             } else {
                 // Obsługa błędnej odpowiedzi z serwera

@@ -57,15 +57,6 @@ public class MainScrollingActivity extends AppCompatActivity implements OnDevice
         recyclerViewDevice.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewDevice.setAdapter(deviceAdapter);
 
-//        FloatingActionButton fab = binding.fab;
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
         UserSessionManager userSessionManager = UserSessionManager.getInstance(MainScrollingActivity.this);
         LoggedInUser currentUser = userSessionManager.getLoggedInUser();
 

@@ -1,11 +1,14 @@
 package com.example.checkmate.ui.login;
 
+import android.content.Context;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
 
+import com.example.checkmate.NetworkUtils;
 import com.example.checkmate.data.LoginRepository;
 import com.example.checkmate.R;
 
@@ -13,6 +16,8 @@ import com.example.checkmate.data.api.ApiClient;
 import com.example.checkmate.data.api.ApiService;
 import com.example.checkmate.data.model.LoginRequest;
 import com.example.checkmate.data.model.LoginResponse;
+
+import java.net.SocketTimeoutException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -37,7 +42,12 @@ public class LoginViewModel extends ViewModel {
         return loginResult;
     }
 
-    public void login(String username, String password) {
+    public void login(String username, String password, Context context) {
+        if (!NetworkUtils.isNetworkAvailable(context)) {
+            loginResult.postValue(new LoginResult(R.string.error_no_internet));
+            return;
+        }
+
         LoginRequest loginRequest = new LoginRequest(username, password);
 
         apiService.loginUser(loginRequest).enqueue(new Callback<LoginResponse>() {
@@ -54,6 +64,7 @@ public class LoginViewModel extends ViewModel {
                     LoggedInUserView userView = new LoggedInUserView("User " + loginResponse.getUserId(), loginResponse.getUserId());
                     loginResult.postValue(new LoginResult(userView));
                 } else {
+                    Log.d("POLACZENIEPROBLEMS", "onResponse else");
                     loginResult.postValue(new LoginResult(R.string.login_failed));
                 }
             }
@@ -61,9 +72,22 @@ public class LoginViewModel extends ViewModel {
             @Override
             public void onFailure(Call<LoginResponse> call, Throwable t) {
                 Log.d("LOGINLogamiks", "on failure " + call + " " + t);
+//                if (t instanceof java.net.UnknownHostException) {
+//                    loginResult.postValue(new LoginResult(R.string.error_no_internet));
+//                } else if (t instanceof SocketTimeoutException) {
+//                    Log.d("LOGINLogamiks", "SocketTimeoutException: Could not connect to server.");
+//                    loginResult.postValue(new LoginResult(R.string.error_connection_timeout));
+//                } else {
+//                    loginResult.postValue(new LoginResult(R.string.login_failed));
+//                }
+//            }
                 loginResult.postValue(new LoginResult(R.string.login_failed));
             }
         });
+    }
+
+    public void showTimeoutError(Context context) {
+        Toast.makeText(context, "Connection timeout. Please try again later.", Toast.LENGTH_LONG).show();
     }
 
     public void loginDataChanged(String username, String password) {

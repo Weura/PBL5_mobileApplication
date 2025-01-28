@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.checkmate.MainScrollingActivity;
+import com.example.checkmate.NetworkUtils;
 import com.example.checkmate.R;
 import com.example.checkmate.data.model.LoggedInUser;
 import com.example.checkmate.data.model.UserSessionManager;
@@ -51,10 +52,6 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = binding.loginButton;
         final ProgressBar loadingProgressBar = binding.loading;
 
-//        final Button registerPageButton = binding.registerPageButton;
-//        returnButton = findViewById(R.id.returnButton);
-
-
         loginViewModel.getLoginFormState().observe(this, new Observer<LoginFormState>() {
             @Override
             public void onChanged(@Nullable LoginFormState loginFormState) {
@@ -77,7 +74,7 @@ public class LoginActivity extends AppCompatActivity {
                 if (loginResult == null) {
                     return;
                 }
-//                loadingProgressBar.setVisibility(View.GONE);
+                loadingProgressBar.setVisibility(View.GONE);
                 if (loginResult.getError() != null) {
                     showLoginFailed(loginResult.getError());
                 }
@@ -116,37 +113,26 @@ public class LoginActivity extends AppCompatActivity {
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                 if (actionId == EditorInfo.IME_ACTION_DONE) {
                     loginViewModel.login(usernameEditText.getText().toString(),
-                            passwordEditText.getText().toString());
+                            passwordEditText.getText().toString(), LoginActivity.this);
                 }
                 return false;
             }
         });
 
-//        returnButton.setOnClickListener(view -> {
-//            Intent intent = new Intent(LoginActivity.this, NavigationLoggedUser.class);
-//            startActivity(intent);
-//            finish();
-//        });
-
-
         loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
             public void onClick(View v) {
+                if (!NetworkUtils.isNetworkAvailable(LoginActivity.this)) {
+                    Log.d("LoginLogamiks", "No internet");
+                    Toast.makeText(LoginActivity.this, "No internet connection", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                loginViewModel.login(usernameEditText.getText().toString(),
-                        passwordEditText.getText().toString());
+                String username = usernameEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                loginViewModel.login(username, password, LoginActivity.this);
             }
         });
-
-//        // Redirect to the register page
-//        registerPageButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                // Navigate to RegisterActivity
-//                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
-//                startActivity(intent);
-//            }
-//        });
     }
 
 
